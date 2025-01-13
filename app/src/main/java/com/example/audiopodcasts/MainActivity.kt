@@ -88,7 +88,10 @@ class MainActivity : ComponentActivity() {
                             }
 
                             else -> {
-                                Log.e("PodcastDetailsScreen - NavigationEvent", "Something went wrong!")
+                                Log.e(
+                                    "PodcastDetailsScreen - NavigationEvent",
+                                    "Something went wrong!"
+                                )
                             }
                         }
                         podcastDetailsViewModel.removeNavigationEvent()
@@ -96,21 +99,5 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
-    }
-}
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    AudioPodcastsTheme {
-        Greeting("Android")
     }
 }
