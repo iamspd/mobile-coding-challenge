@@ -1,6 +1,5 @@
 package com.example.audiopodcasts.presentation
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -22,14 +21,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
+import com.example.audiopodcasts.R
 import com.example.audiopodcasts.domain.Podcast
 import com.example.audiopodcasts.ui.theme.AudioPodcastsTheme
+import com.example.audiopodcasts.ui.theme.ButtonPink
 
 @Composable
 fun PodcastItem(
@@ -44,9 +46,8 @@ fun PodcastItem(
             .clickable(
                 indication = null,
                 interactionSource = remember { MutableInteractionSource() }
-            ){
+            ) {
                 bestPodcastViewModel.podcastListItemSelected(podcast = podcast)
-                Log.v("Main", podcast.id)
             }
     ) {
         Row(
@@ -86,6 +87,16 @@ fun PodcastItem(
                     fontStyle = FontStyle.Italic,
                     color = Color.Gray,
                 )
+
+                Spacer(modifier = Modifier.height(4.dp))
+
+                if (podcast.isFavourite) {
+                    Text(
+                        text = stringResource(R.string.favourited_text),
+                        style = MaterialTheme.typography.subtitle1,
+                        color = ButtonPink
+                    )
+                }
             }
         }
 
