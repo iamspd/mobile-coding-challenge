@@ -7,5 +7,5 @@ data class Podcast(
     val description: String,
     val imageUrl: String?,
     val thumbnailUrl: String?,
-    val isFavourite: Boolean? = false
+    val isFavourite: Boolean = false
 )

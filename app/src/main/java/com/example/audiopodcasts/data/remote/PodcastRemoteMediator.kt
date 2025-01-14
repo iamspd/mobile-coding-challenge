@@ -23,6 +23,9 @@ class PodcastRemoteMediator(
         state: PagingState<Int, PodcastEntity>
     ): MediatorResult {
         return try {
+
+            val responseEntity = podcastDb.responseDao.getResponseEntity("podcastId")
+
             val loadKey = when (loadType) {
                 LoadType.REFRESH -> 1
                 LoadType.PREPEND -> return MediatorResult.Success(
@@ -30,7 +33,6 @@ class PodcastRemoteMediator(
                 )
 
                 LoadType.APPEND -> {
-                    val responseEntity = podcastDb.responseDao.getResponseEntity("podcastId")
                     if (responseEntity == null || responseEntity.hasNextPage.not()) {
                         return MediatorResult.Success(endOfPaginationReached = true)
                     }
@@ -38,30 +40,45 @@ class PodcastRemoteMediator(
                 }
             }
 
-            val podcastDto = podcastApi.getBestPodcasts(page = loadKey)
-            val podcasts = podcastDto.body()?.podcasts
-            val hasNextPage = podcastDto.body()?.hasNextPage
+            /**
+             * Checking here if the responseEntity is null (first app launch or database is empty),
+             *      only then we need to make an API call, otherwise
+             *      use the database to load the data.
+             *
+             *      This way, we won't upsert the database entries on each
+             *          paging invalidation.
+             *      It ensures the update operation of the podcasts to favourite
+             *          works and paging happens from local database entries as expected.
+             *          -- 10 items load per page.
+             */
 
-            podcastDb.withTransaction {
+            if (responseEntity == null) {
 
-                if(loadType == LoadType.REFRESH) {
-                    podcastDb.podcastDao.clearAll()
-                    podcastDb.responseDao.clearAll()
-                }
+                val podcastDto = podcastApi.getBestPodcasts(page = loadKey)
+                val podcasts = podcastDto.body()?.podcasts
 
-                val podcastEntities = podcasts?.map {
-                    it.toPodcastEntity()
-                }
+                podcastDb.withTransaction {
 
-                if (podcastEntities != null) {
-                    podcastDb.podcastDao.upsertPodcasts(podcastEntities)
-                }
+                    if (loadType == LoadType.REFRESH) {
+                        podcastDb.podcastDao.clearAll()
+                        podcastDb.responseDao.clearAll()
+                    }
 
-                if (podcastDto.body() != null) {
-                    podcastDb.responseDao.upsertResponse(podcastDto.body()!!.toResponseEntity())
+                    val podcastEntities = podcasts?.map {
+                        it.toPodcastEntity()
+                    }
+
+                    if (podcastEntities != null) {
+                        podcastDb.podcastDao.upsertPodcasts(podcastEntities)
+                    }
+
+                    if (podcastDto.body() != null) {
+                        podcastDb.responseDao.upsertResponse(podcastDto.body()!!.toResponseEntity())
+                    }
                 }
             }
-            MediatorResult.Success(endOfPaginationReached = !hasNextPage!!)
+
+            MediatorResult.Success(endOfPaginationReached = false)
 
         } catch (e: IOException) {
             MediatorResult.Error(e)

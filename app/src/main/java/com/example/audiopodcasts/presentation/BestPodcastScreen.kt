@@ -18,7 +18,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import com.example.audiopodcasts.R
@@ -28,7 +27,7 @@ import com.example.audiopodcasts.domain.Podcast
 fun BestPodcastScreen(
     modifier: Modifier = Modifier,
     podcasts: LazyPagingItems<Podcast>,
-    bestPodcastViewModel: BestPodcastViewModel = hiltViewModel()
+    bestPodcastViewModel: BestPodcastViewModel
 ) {
     val context = LocalContext.current
     LaunchedEffect(key1 = podcasts.loadState) {

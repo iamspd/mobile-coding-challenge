@@ -30,7 +30,7 @@ class PodcastDetailsViewModel @Inject constructor(
         viewModelScope.launch {
             podcastRepository.getPodcastById(id).collect {
                 _podcast.value = it
-                _isFavourite.value = it.isFavourite?.not() ?: false
+                _isFavourite.value = it.isFavourite
             }
         }
     }

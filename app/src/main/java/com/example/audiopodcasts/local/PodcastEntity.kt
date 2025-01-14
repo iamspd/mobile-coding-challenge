@@ -11,5 +11,5 @@ data class PodcastEntity(
     val description: String,
     val imageUrl: String?,
     val thumbnailUrl: String?,
-    val isFavourite: Boolean?
+    val isFavourite: Boolean = false
 )

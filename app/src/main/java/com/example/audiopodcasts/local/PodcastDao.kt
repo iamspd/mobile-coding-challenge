@@ -16,10 +16,10 @@ interface PodcastDao {
     fun pagingSource(): PagingSource<Int, PodcastEntity>
 
     @Query("SELECT * FROM podcastEntity WHERE id = :podcastId")
-    fun getPodcastById(podcastId: String): PodcastEntity
+    suspend fun getPodcastById(podcastId: String): PodcastEntity
 
     @Update
-    fun updatePodcast(podcastId: PodcastEntity)
+    suspend fun updatePodcast(podcast: PodcastEntity)
 
     @Query("DELETE FROM podcastEntity")
     suspend fun clearAll()

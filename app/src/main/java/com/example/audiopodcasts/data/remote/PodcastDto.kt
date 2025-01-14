@@ -9,5 +9,5 @@ data class PodcastDto(
     val description: String,
     @field:Json(name = "image") val imageUrl: String,
     @field:Json(name = "thumbnail") val thumbnailUrl: String,
-    val isFavourite: Boolean?
+    val isFavourite: Boolean = false
 )

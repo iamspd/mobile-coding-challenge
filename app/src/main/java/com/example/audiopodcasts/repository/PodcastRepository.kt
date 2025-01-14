@@ -1,6 +1,5 @@
 package com.example.audiopodcasts.repository
 
-import android.util.Log
 import com.example.audiopodcasts.data.mappers.toPodcast
 import com.example.audiopodcasts.data.mappers.toPodcastEntity
 import com.example.audiopodcasts.domain.Podcast
@@ -17,7 +16,7 @@ class PodcastRepository @Inject constructor(
     private val podcastDatabase: PodcastDatabase
 ) {
 
-    suspend fun getPodcastById(podcastId: String): Flow<Podcast> {
+    fun getPodcastById(podcastId: String): Flow<Podcast> {
         return flow {
             try {
                 val podcast = podcastDatabase.podcastDao.getPodcastById(podcastId = podcastId)
@@ -31,7 +30,7 @@ class PodcastRepository @Inject constructor(
     suspend fun updatePodcast(podcastId: String) {
         return getPodcastById(podcastId = podcastId).collect { podcast ->
             podcastDatabase.podcastDao.updatePodcast(
-                podcast.copy(isFavourite = podcast.isFavourite?.not()).toPodcastEntity()
+                podcast.copy(isFavourite = podcast.isFavourite.not()).toPodcastEntity()
             )
         }
     }

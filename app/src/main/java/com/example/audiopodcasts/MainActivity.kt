@@ -7,10 +7,7 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Scaffold
-import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -57,9 +54,9 @@ class MainActivity : ComponentActivity() {
                             it.arguments?.getString("podcastId")
                                 ?.let { id -> podcastDetailsViewModel.getPodcastDetails(id) }
 
-                            podcastDetailsViewModel.podcast.value?.let { it1 ->
+                            podcastDetailsViewModel.podcast.value?.let { podcast ->
                                 PodcastDetailsScreen(
-                                    podcast = it1,
+                                    podcast = podcast,
                                     podcastDetailsViewModel = podcastDetailsViewModel
                                 )
                             }
