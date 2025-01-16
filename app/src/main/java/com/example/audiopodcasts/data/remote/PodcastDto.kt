@@ -7,7 +7,7 @@ data class PodcastDto(
     val title: String,
     val publisher: String,
     val description: String,
-    @field:Json(name = "image") val imageUrl: String,
-    @field:Json(name = "thumbnail") val thumbnailUrl: String,
+    @field:Json(name = "image") val imageUrl: String, // collecting image URL for the image in PodcastDetailsScreen
+    @field:Json(name = "thumbnail") val thumbnailUrl: String, // image URL for thumbnail in PodcastListItem
     val isFavourite: Boolean = false
 )

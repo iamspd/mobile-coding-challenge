@@ -49,7 +49,7 @@ class PodcastRemoteMediator(
              *          paging invalidation.
              *      It ensures the update operation of the podcasts to favourite
              *          works and paging happens from local database entries as expected.
-             *          -- 10 items load per page.
+             *          -- 10 items are loaded per page.
              */
 
             if (responseEntity == null) {

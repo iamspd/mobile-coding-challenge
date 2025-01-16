@@ -3,4 +3,7 @@
     <string name="back_text">Back</string>
     <string name="favourite_text">Favourite</string>
     <string name="favourited_text">Favourited</string>
+    <string name="homescreen_navigationevent_tag">HomeScreen - NavigationEvent</string>
+    <string name="something_went_wrong_msg">Something went wrong!</string>
+    <string name="podcastdetailsscreen_navigationevent_tag">PodcastDetailsScreen - NavigationEvent</string>
 </resources>

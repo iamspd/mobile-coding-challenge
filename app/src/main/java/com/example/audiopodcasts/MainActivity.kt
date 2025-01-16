@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Scaffold
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -40,6 +41,12 @@ class MainActivity : ComponentActivity() {
                         navController = navController,
                         startDestination = "BestPodcastScreen"
                     ) {
+
+                        /**
+                         * Root composable -
+                         * Home screen that displays list of podcasts
+                         */
+
                         composable(route = "BestPodcastScreen") {
                             BestPodcastScreen(
                                 modifier = Modifier.padding(innerPadding),
@@ -47,6 +54,11 @@ class MainActivity : ComponentActivity() {
                                 bestPodcastViewModel = bestPodcastViewModel
                             )
                         }
+
+                        /**
+                         * PodcastDetails screen that displays a podcast information
+                         *      based on the given podcastId
+                         */
 
                         composable(
                             route = "PodcastDetailsScreen?podcastId={podcastId}"
@@ -72,7 +84,12 @@ class MainActivity : ComponentActivity() {
                                 )
                             }
 
-                            is NavigationEvent.NavigationToHomeScreen -> navController.popBackStack()
+                            else -> {
+                                Log.e(
+                                    stringResource(R.string.homescreen_navigationevent_tag),
+                                    stringResource(R.string.something_went_wrong_msg)
+                                )
+                            }
                         }
                         bestPodcastViewModel.removeNavigationEvent()
                     }
@@ -86,8 +103,8 @@ class MainActivity : ComponentActivity() {
 
                             else -> {
                                 Log.e(
-                                    "PodcastDetailsScreen - NavigationEvent",
-                                    "Something went wrong!"
+                                    stringResource(R.string.podcastdetailsscreen_navigationevent_tag),
+                                    stringResource(R.string.something_went_wrong_msg)
                                 )
                             }
                         }

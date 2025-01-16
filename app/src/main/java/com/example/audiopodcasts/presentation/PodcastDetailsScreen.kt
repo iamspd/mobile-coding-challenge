@@ -101,7 +101,6 @@ fun PodcastDetailsScreen(
             )
 
             val isFavourite = podcastDetailsViewModel.isFavourite.value
-            Log.e("favDeScreen", isFavourite.toString())
 
             Button(
                 modifier = Modifier
